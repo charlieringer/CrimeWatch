@@ -13,7 +13,6 @@ var numbCrimes = 1;
 var updateTime = 0;
 var dangerlevel = 0;
 
-Vibe.vibrate('long');
 
 
 var main = new UI.Card({
@@ -114,9 +113,9 @@ function drawNotifications()
   var menu = new UI.Menu({
     sections: [{
       items: [{
-        title: 'Violent only',
+        title: 'Vibrate',
       }, {
-        title: 'All Crime',
+        title: 'No Vibrate',
       }]
     }]
   });
