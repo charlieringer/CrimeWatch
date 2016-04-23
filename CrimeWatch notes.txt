@@ -1,0 +1,35 @@
+====Basics====
+
+The app does a check every xx minutes which the user can decide, i.e. they can do battery-saving mode or frequent
+Sensible frequencies might be between every fifteen minutes to every hour or simply on demand when the check the app.
+
+The app does the following steps:
+
+Send a GET request to:
+https://data.police.uk/api/crimes-street/all-crime?lat=LATITUDE&lng=LONGTITUDE&date=DATE
+
+We then receive back a response from the server in the form of JSON (actually an array of objects). More info: https://data.police.uk/docs/method/crime-street/
+Count the number of crimes in the area that are related to crimes against a person such as violent crime, theft and so on.
+
+We can use up to 6 months worth of data to get an accurate picture over time, but this might be a lot for the pebble to handle; 3 months might be easier for the watch to handle and be faster.
+
+If the number is high (tbd, could be per capita or relative to size) then alert the user.
+
+------------------------
+====Parsing the JSON====
+
+Useful links:
+- https://api.jquery.com/jquery.parsejson/
+- http://www.w3schools.com/json/
+
+Pseudocode:
+
+crime_count = 0
+FOREACH json_object IN list of json_objects DO:
+  obj = JSON.parse(json_object)
+  IF obj.category == violent crime (or other relevant crime) THEN:
+    INCREMENT crime_count by 1
+  END IF
+END FOREACH
+
+RETURN crime_count

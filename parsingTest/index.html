@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Parsing Test</title>
+    <script src="jquery-2.2.3.min.js"></script>
+  </head>
+  <body>
+    <p>ASB Count</p>
+    <p id="count"></p>
+    <script>
+      $.when(
+        $.getJSON("https://data.police.uk/api/crimes-street/all-crime?lat=52.629729&lng=-1.131592&date=2013-01")
+      ).done(function (json) {
+        var crimeCount = 0;
+        for (var i = 0; i < json.length; ++i) {
+          obj = json[i];
+          if (obj.category === "anti-social-behaviour") {
+            ++crimeCount;
+          }
+        }
+        $('#count').html(crimeCount);
+      });
+    </script>
+  </body>
+</html>
