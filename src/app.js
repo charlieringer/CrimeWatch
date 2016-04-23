@@ -5,11 +5,30 @@
  */
 
 var UI = require('ui');
-// var Vector2 = require('vector2');
 var ajax = require('ajax');
 var Vibe = require('ui/vibe');
+var Settings = require('settings');
 
-var updateTime = 0;
+//Settings 
+var refreshTime;
+var violentOnly;
+var vibrateOff;
+
+var options = Settings.option();
+console.log("Current Save = " + JSON.stringify(options));
+
+if (Object.keys(options).length === 0){
+    refreshTime = Settings.option('refreshTime', 10);
+    violentOnly = Settings.option('violentOnly', true);
+    vibrateOff = Settings.option('vibrateOff', false);
+} else {
+  refreshTime = Settings.option('refreshTime');
+  violentOnly = Settings.option('violentOnly');
+  vibrateOff = Settings.option('vibrateOff');
+}
+
+
+
 
 var watchId;
 
@@ -79,15 +98,15 @@ function drawUpdateFreq(){
   menu.on('select', function(e) {
     if(e.itemIndex === 0)
       {
-        updateTime = 10;
+        refreshTime = Settings.option('refreshTime', 10);
       } else if (e.itemIndex == 1){
-        updateTime = 30;
+        refreshTime = Settings.option('refreshTime', 30);
       } else if (e.itemIndex == 2)
       {
-        updateTime = 60;
+        refreshTime = Settings.option('refreshTime', 60);
       } else if (e.itemIndex == 3)
       {
-        updateTime = 5*60;
+        refreshTime = Settings.option('refreshTime', 300);
       }
   });
 }
