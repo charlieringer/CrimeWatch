@@ -121,11 +121,12 @@ function drawNotifications()
 
 function success(pos) {
   console.log('Location changed!');
+  main.body('location found, getting data');
   var lat = pos.coords.latitude;
   var long = pos.coords.longitude;
   console.log('lat= ' + lat + ' lon= ' + long);
-//   var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
-  var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + 51.5 + '&lng=' + 0.13 + '&date=2016-02';
+  var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
+//   var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + 51.5 + '&lng=' + 0.13 + '&date=2016-02';
   ajax(
     {
       url: url,
@@ -154,6 +155,7 @@ function success(pos) {
 
 function error(err) {
   console.log('location error (' + err.code + '): ' + err.message);
+  main.body('Failed to fetch location data. Please check your connection.');
 }
 
 var options = {
@@ -163,7 +165,10 @@ var options = {
 };
 
 // Get location updates
-watchId = navigator.geolocation.watchPosition(success, error, options);
+// watchId = navigator.geolocation.watchPosition(success, error, options);
+watchId = navigator.geolocation.getCurrentPosition(success, error, options);
+
+// success(null);
 
 // Clear the watch and stop receiving updates
-navigator.geolocation.clearWatch(watchId);
+// navigator.geolocation.clearWatch(watchId);
