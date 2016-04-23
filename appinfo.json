@@ -1,7 +1,7 @@
 {
     "appKeys": {},
     "capabilities": [
-        ""
+        "location"
     ],
     "companyName": "cring002@gold.ac.uk",
     "longName": "CrimeWatch",

@@ -7,13 +7,35 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 var Vibe = require('ui/vibe');
+var numbCrimes = 1;
+//var pebbleKit = require('pebblekit.js');
 
 var numbMonths = 1;
-var numbCrimes = 1;
+
 var updateTime = 0;
-var dangerlevel = 0;
 
+var watchId;
+function success(pos) {
+  console.log('Location changed!');
+  console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
+  numbCrimes = pos.coords.latitude;
+}
 
+function error(err) {
+  console.log('location error (' + err.code + '): ' + err.message);
+}
+
+var options = {
+  enableHighAccuracy: true,
+  maximumAge: 0,
+  timeout: 5000
+};
+
+// Get location updates
+watchId = navigator.geolocation.watchPosition(success, error, options);
+
+// Clear the watch and stop receiving updates
+navigator.geolocation.clearWatch(watchId);
 
 var main = new UI.Card({
   title: 'Crime Watch',
