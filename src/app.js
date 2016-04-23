@@ -27,9 +27,6 @@ if (Object.keys(options).length === 0){
   vibrateOff = Settings.option('vibrateOff');
 }
 
-
-
-
 var watchId;
 
 var main = new UI.Card({
@@ -90,7 +87,7 @@ function drawUpdateFreq(){
       },{
         title: '1 hour',
       },{
-        title: '5 hours',
+        title: '24 hours',
       }]
     }]
   });
@@ -98,15 +95,15 @@ function drawUpdateFreq(){
   menu.on('select', function(e) {
     if(e.itemIndex === 0)
       {
-        refreshTime = Settings.option('refreshTime', 10);
+        refreshTime = Settings.option('refreshTime', 10*60);
       } else if (e.itemIndex == 1){
-        refreshTime = Settings.option('refreshTime', 30);
+        refreshTime = Settings.option('refreshTime', 30*60);
       } else if (e.itemIndex == 2)
       {
-        refreshTime = Settings.option('refreshTime', 60);
+        refreshTime = Settings.option('refreshTime', 60*60);
       } else if (e.itemIndex == 3)
       {
-        refreshTime = Settings.option('refreshTime', 300);
+        refreshTime = Settings.option('refreshTime', 24*60*60);
       }
   });
 }
@@ -183,11 +180,5 @@ var options = {
   timeout: 5000
 };
 
-// Get location updates
-// watchId = navigator.geolocation.watchPosition(success, error, options);
 watchId = navigator.geolocation.getCurrentPosition(success, error, options);
 
-// success(null);
-
-// Clear the watch and stop receiving updates
-// navigator.geolocation.clearWatch(watchId);
