@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Parsing Test</title>
+    <script src="jquery-2.2.3.min.js"></script>
+  </head>
+  <body>
+    <p><strong>List</strong></p>
+    <ul id="list">
+    </ul>
+    <script>
+      var alreadyListed = [];
+      $.when(
+        $.getJSON("https://data.police.uk/api/crime-categories?date=2016-02")
+      ).done(function (json) {
+        for (var i = 0; i < json.length; ++i) {
+          // if (i > 0) {
+          //   if (json[i].name !== json[i-1].name) {
+          //     $('#list').append("<li>" + json[i].name + "</li>");
+          //   }
+          // }
+          $('#list').append("<li>" + json[i].name + "</li>");
+        }
+      });
+    </script>
+  </body>
+</html>
