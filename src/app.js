@@ -10,7 +10,7 @@ var Vibe = require('ui/vibe');
 var Settings = require('settings');
 
 //Settings 
-var refreshTime;
+var refresh;
 var violentOnly;
 var vibrateOff;
 
@@ -18,11 +18,11 @@ var options = Settings.option();
 console.log("Current Save = " + JSON.stringify(options));
 
 if (Object.keys(options).length === 0){
-    refreshTime = Settings.option('refreshTime', 10);
+    refresh = Settings.option('refresh', false);
     violentOnly = Settings.option('violentOnly', true);
     vibrateOff = Settings.option('vibrateOff', false);
 } else {
-  refreshTime = Settings.option('refreshTime');
+  refresh = Settings.option('refresh');
   violentOnly = Settings.option('violentOnly');
   vibrateOff = Settings.option('vibrateOff');
 }
@@ -47,14 +47,17 @@ main.on('click', 'select', function(e) {
   var menu = new UI.Menu({
     sections: [{
       items: [{
-        title: 'Update Freq',
-        subtitle: 'Change update freq'
+        title: 'Updates',
+        subtitle: 'Toggle updates'
       }, {
         title: 'Violent/All Crime',
-        subtitle: 'Choose Violent or all crime'
+        subtitle: 'Violent or all crimes.'
       },{
         title: 'Notifications',
         subtitle: 'Adjust Notifications'
+      },{
+        title: 'Time',
+        subtitle: 'Adjust period'
       }]
     }]
   });
@@ -63,11 +66,17 @@ main.on('click', 'select', function(e) {
     if(e.itemIndex === 0)
       {
         drawUpdateFreq();
-      } else if (e.itemIndex == 1){
+      } else if (e.itemIndex === 1){
         drawCrimeToggle();
-      } else if (e.itemIndex == 2)
+      } else if (e.itemIndex === 2)
       {
           drawNotifications();
+      } else if (e.itemIndex === 3)
+      {
+        drawRadius();
+      } else if(e.itemIndex === 4)
+      {
+         drawTime();   
       }
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
@@ -81,13 +90,9 @@ function drawUpdateFreq(){
   var menu = new UI.Menu({
     sections: [{
       items: [{
-        title: '10 mins',
+        title: '20 mins',
       }, {
-        title: '30 mins',
-      },{
-        title: '1 hour',
-      },{
-        title: '24 hours',
+        title: 'Never',
       }]
     }]
   });
@@ -95,15 +100,9 @@ function drawUpdateFreq(){
   menu.on('select', function(e) {
     if(e.itemIndex === 0)
       {
-        refreshTime = Settings.option('refreshTime', 10*60);
+        refresh = Settings.option('refresh', true);
       } else if (e.itemIndex == 1){
-        refreshTime = Settings.option('refreshTime', 30*60);
-      } else if (e.itemIndex == 2)
-      {
-        refreshTime = Settings.option('refreshTime', 60*60);
-      } else if (e.itemIndex == 3)
-      {
-        refreshTime = Settings.option('refreshTime', 24*60*60);
+        refresh = Settings.option('refresh', false);
       }
   });
 }
@@ -119,6 +118,14 @@ function drawCrimeToggle(){
     }]
   });
   menu.show();
+  menu.on('select', function(e) {
+    if(e.itemIndex === 0)
+      {
+        violentOnly = Settings.option('violentOnly', true);
+      } else {
+        violentOnly = Settings.option('violentOnly', false);
+      }
+  });
 }
 
 function drawNotifications()
@@ -133,6 +140,40 @@ function drawNotifications()
     }]
   });
   menu.show();
+  menu.on('select', function(e) {
+  if(e.itemIndex === 0)
+  {
+    vibrateOff = Settings.option('vibrateOff', false);
+  } else {
+    vibrateOff = Settings.option('vibrateOff', true);
+  }
+  });
+}
+
+function drawTime()
+{
+  var menu = new UI.Menu({
+    sections: [{
+      items: [{
+        title: '1 month',
+      }, {
+        title: '3 months',
+      },{
+        title: '6 months',
+      },{
+        title: '12 months',
+      }]
+    }]
+  });
+  menu.show();
+  menu.on('select', function(e) {
+  if(e.itemIndex === 0)
+  {
+    vibrateOff = Settings.option('vibrateOff', false);
+  } else {
+    vibrateOff = Settings.option('vibrateOff', true);
+  }
+  });
 }
 
 function success(pos) {
