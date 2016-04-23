@@ -7,10 +7,6 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 var Vibe = require('ui/vibe');
-var numbCrimes = 1;
-//var pebbleKit = require('pebblekit.js');
-
-var numbMonths = 1;
 
 var updateTime = 0;
 
@@ -18,7 +14,7 @@ var watchId;
 function success(pos) {
   console.log('Location changed!');
   console.log('lat= ' + pos.coords.latitude + ' lon= ' + pos.coords.longitude);
-  numbCrimes = pos.coords.latitude;
+
 }
 
 function error(err) {
@@ -40,7 +36,7 @@ navigator.geolocation.clearWatch(watchId);
 var main = new UI.Card({
   title: 'Crime Watch',
   //icon: 'images/menu_icon.png',
-  body: 'Number of crimes in last ' + numbMonths + ' month(s): ' + numbCrimes,
+  body: 'Fetching data...',
   subtitleColor: 'indigo', // Named colors
   bodyColor: '#9a0036' // Hex colors
 });
