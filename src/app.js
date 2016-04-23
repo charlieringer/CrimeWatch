@@ -8,6 +8,7 @@ var UI = require('ui');
 var ajax = require('ajax');
 var Vibe = require('ui/vibe');
 var Settings = require('settings');
+var Wakeup = require('wakeup');
 
 //Settings 
 var refresh;
@@ -221,5 +222,30 @@ var options = {
   timeout: 5000
 };
 
-watchId = navigator.geolocation.getCurrentPosition(success, error, options);
+// Single wakeup event handler example:
+Wakeup.launch(function(e) {
+  console.log('Wakeup event! ' + JSON.stringify(e));
+  main.body("just woke up");
+  // Get location updates
+  watchId = navigator.geolocation.getCurrentPosition(success, error, options);
+  
+  scheduleWakeup();
+});
+
+function scheduleWakeup() {
+  Wakeup.schedule(
+    {
+      // the +1200 could be replaced by the setting
+      time: Date.now() / 1000 + 1200,
+    },
+    function(e) {
+      if (e.failed) {
+        // Log the error reason
+        console.log('Wakeup set failed: ' + e.error);
+      } else {
+        console.log('Wakeup set! Event ID: ' + e.id);
+      }
+    }
+  );
+}
 
