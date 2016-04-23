@@ -5,7 +5,8 @@
  */
 
 var UI = require('ui');
-var Vector2 = require('vector2');
+// var Vector2 = require('vector2');
+var ajax = require('ajax');
 var Vibe = require('ui/vibe');
 
 var updateTime = 0;
@@ -123,7 +124,8 @@ function success(pos) {
   var lat = pos.coords.latitude;
   var long = pos.coords.longitude;
   console.log('lat= ' + lat + ' lon= ' + long);
-  var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
+//   var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
+  var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + 51.5 + '&lng=' + 0.13 + '&date=2016-02';
   ajax(
     {
       url: url,
@@ -135,7 +137,8 @@ function success(pos) {
       var crimeCount = 0;
       for (var i = 0; i < data.length; ++i) {
         var obj = data[i];
-        if (obj.category === "Violence and sexual offences" || obj.category === "Theft from the person") {
+//         console.log(obj.category);
+        if (obj.category === "violent-crime" || obj.category === "theft-from-the-person") {
           ++crimeCount;
         }
       }
@@ -144,6 +147,7 @@ function success(pos) {
     function(error) {
       // Failure!
       console.log('Failed fetching crime data: ' + error);
+      main.body('Failed to fetch crime data. Please check your connection.');
     }
   );
 }
