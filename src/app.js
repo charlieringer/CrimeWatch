@@ -14,6 +14,7 @@ var Wakeup = require('wakeup');
 var refresh;
 var violentOnly;
 var vibrateOff;
+var timeSetting;
 
 var options = Settings.option();
 console.log("Current Save = " + JSON.stringify(options));
@@ -22,10 +23,12 @@ if (Object.keys(options).length === 0){
     refresh = Settings.option('refresh', false);
     violentOnly = Settings.option('violentOnly', true);
     vibrateOff = Settings.option('vibrateOff', false);
+    timeSetting = Settings.option('time', 3);
 } else {
   refresh = Settings.option('refresh');
   violentOnly = Settings.option('violentOnly');
   vibrateOff = Settings.option('vibrateOff');
+  timeSetting = Settings.option('time');
 }
 
 var watchId;
@@ -74,10 +77,7 @@ main.on('click', 'select', function(e) {
           drawNotifications();
       } else if (e.itemIndex === 3)
       {
-        drawRadius();
-      } else if(e.itemIndex === 4)
-      {
-         drawTime();   
+        drawTime(); 
       }
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
@@ -170,9 +170,13 @@ function drawTime()
   menu.on('select', function(e) {
   if(e.itemIndex === 0)
   {
-    vibrateOff = Settings.option('vibrateOff', false);
-  } else {
-    vibrateOff = Settings.option('vibrateOff', true);
+    timeSetting = Settings.option('time', 1);
+  } else if (e.itemIndex === 1) {
+    timeSetting = Settings.option('time', 3);
+  } else if (e.itemIndex === 2) {
+    timeSetting = Settings.option('time', 6);
+  } else if (e.itemIndex === 3) {
+    timeSetting = Settings.option('time', 12);
   }
   });
 }
