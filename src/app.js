@@ -7,6 +7,7 @@
 var UI = require('ui');
 var ajax = require('ajax');
 var Vibe = require('ui/vibe');
+var Accel = require('ui/accel');
 var Settings = require('settings');
 var Wakeup = require('wakeup');
 
@@ -169,8 +170,9 @@ main.on('click', 'down', function(e) {
       card.show();
     }
   console.log(crimes);
-  
 });
+
+Accel.on('tap', getLocation());
 
 /**
  * Draw menu item setting for how often to wake the app from sleep
@@ -391,17 +393,26 @@ function error(err) {
 }
 
 /**
- * Wakeup event called when the app is launched or woken up
- */ 
-Wakeup.launch(function(e) {
-  console.log('Wakeup event! ' + JSON.stringify(e));
-  
+ * Get the location and the trigger the callbacks
+ */
+function getLocation() {
   // Get location updates
   watchId = navigator.geolocation.getCurrentPosition(success, error, {
         enableHighAccuracy: true,
         maximumAge: 0,
         timeout: 5000 
   });
+}
+
+/**
+ * Wakeup event called when the app is launched or woken up
+ */ 
+Wakeup.launch(function(e) {
+  console.log('Wakeup event! ' + JSON.stringify(e));
+  
+  // Get location updates
+  getLocation();
+  
   if (!vibrateOff)
     {
       Vibe.vibrate('long');
