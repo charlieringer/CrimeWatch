@@ -11,7 +11,7 @@ var Accel = require('ui/accel');
 var Settings = require('settings');
 var Wakeup = require('wakeup');
 
-var watchId;
+// var watchId;
 
 //Settings 
 var refresh;
@@ -60,8 +60,8 @@ if (Object.keys(options).length === 0) {
 
 var main = new UI.Card({
   title: 'Crime Watch',
-  //icon: 'images/menu_icon.png',
   subtitle: 'Fetching data...',
+  body: "Shake to refresh",
   subtitleColor: 'indigo', // Named colors
   bodyColor: '#9a0036' // Hex colors
 });
@@ -172,7 +172,10 @@ main.on('click', 'down', function(e) {
   console.log(crimes);
 });
 
-Accel.on('tap', getLocation());
+Accel.on('tap', function(e) {
+  main.body('Refreshing...');
+  getLocation();
+});
 
 /**
  * Draw menu item setting for how often to wake the app from sleep
@@ -352,10 +355,11 @@ function parseResponse(data) {
         }         
       }
       console.log('Crimes:');
-      //console.log(JSON.stringify(crimes));
+
   if(personalCrime)
     {
       main.subtitle('Number of crimes in last month: ' + personalCrimeCount);
+      main.body('Shake to refresh');
     } else {
       main.subtitle('Number of crimes in last month: ' + crimeCount);
     }
@@ -369,8 +373,8 @@ function success(pos) {
   var lat = pos.coords.latitude;
   var long = pos.coords.longitude;
   console.log('lat= ' + lat + ' lon= ' + long);
- // var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
-    var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + 51.5 + '&lng=' + 0.12 + '&date=2016-02';
+ var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat + '&lng=' + long + '&date=2016-02';
+//     var url = 'https://data.police.uk/api/crimes-street/all-crime?lat=' + 51.5 + '&lng=' + 0.12 + '&date=2016-02';
   ajax(
     {
       url: url,
@@ -397,7 +401,7 @@ function error(err) {
  */
 function getLocation() {
   // Get location updates
-  watchId = navigator.geolocation.getCurrentPosition(success, error, {
+  navigator.geolocation.getCurrentPosition(success, error, {
         enableHighAccuracy: true,
         maximumAge: 0,
         timeout: 5000 
