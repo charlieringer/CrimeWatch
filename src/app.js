@@ -62,8 +62,9 @@ var main = new UI.Card({
   title: 'Crime Watch',
   subtitle: 'Fetching data...',
   body: "Shake to refresh",
-  subtitleColor: 'indigo', // Named colors
-  bodyColor: '#9a0036' // Hex colors
+  
+  subtitleColor: '#005', // Named colors
+  bodyColor: '#05a' // Hex colors
 });
 
 main.show();
@@ -355,11 +356,10 @@ function parseResponse(data) {
         }         
       }
       console.log('Crimes:');
-
+  main.body('Shake to refresh');
   if(personalCrime)
     {
       main.subtitle('Number of crimes in last month: ' + personalCrimeCount);
-      main.body('Shake to refresh');
     } else {
       main.subtitle('Number of crimes in last month: ' + crimeCount);
     }
