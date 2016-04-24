@@ -74,8 +74,8 @@ main.on('click', 'select', function(e) {
         title: 'Updates',
         subtitle: 'Toggle updates'
       }, {
-        title: 'Violent/All Crime',
-        subtitle: 'Violent or all crimes.'
+        title: 'Personal/All Crime',
+        subtitle: 'Personal or all crimes.'
       },{
         title: 'Notifications',
         subtitle: 'Adjust Notifications'
