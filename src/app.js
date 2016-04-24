@@ -110,9 +110,6 @@ main.on('click', 'select', function(e) {
       },{
         title: 'Notifications',
         subtitle: 'Adjust Notifications'
-      },{
-        title: 'Time',
-        subtitle: 'Adjust period'
       }]
     }]
   });
@@ -130,10 +127,7 @@ main.on('click', 'select', function(e) {
       } else if (e.itemIndex === 2)
       {
           drawNotifications();
-      } else if (e.itemIndex === 3)
-      {
-        drawTime(); 
-      }
+      } 
     console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
     console.log('The item is titled "' + e.item.title + '"');
   });
@@ -268,39 +262,7 @@ function drawNotifications()
 /**
  * Draw menu item for setting time period to retrieve data
  */ 
-function drawTime()
-{
-  var menu = new UI.Menu({
-    sections: [{
-      items: [{
-        title: '1 month',
-      }, {
-        title: '3 months',
-      },{
-        title: '6 months',
-      },{
-        title: '12 months',
-      }]
-    }]
-  });
-  menu.show();
-  menu.on('select', function(e) {
-    if (!vibrateOff)
-    {
-      Vibe.vibrate('short');
-    }
-  if(e.itemIndex === 0)
-  {
-    timeSetting = Settings.option('time', 1);
-  } else if (e.itemIndex === 1) {
-    timeSetting = Settings.option('time', 3);
-  } else if (e.itemIndex === 2) {
-    timeSetting = Settings.option('time', 6);
-  } else if (e.itemIndex === 3) {
-    timeSetting = Settings.option('time', 12);
-  }
-  });
-}
+
 function resetCrimes()
     {
       crimeCount = 0;
