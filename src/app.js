@@ -199,9 +199,11 @@ function drawUpdateFreq(){
     }
     if(e.itemIndex === 0)
       {
-        refresh = Settings.option('refresh', true);
+        Settings.option('refresh', true);
+        refresh = Settings.option('refresh');
       } else if (e.itemIndex == 1){
-        refresh = Settings.option('refresh', false);
+        Settings.option('refresh', false);
+        refresh = Settings.option('refresh');
       }
   });
 }
@@ -227,10 +229,12 @@ function drawCrimeToggle(){
     }
     if(e.itemIndex === 0)
       {
-        personalCrime = Settings.option('personalOnly', true);
+        Settings.option('personalOnly', true);
+        personalCrime =  Settings.option('personalOnly');
         main.subtitle('Number of crimes in last month: ' + personalCrimeCount);
       } else {
-        personalCrime = Settings.option('personalOnly', false);
+        Settings.option('personalOnly', false);
+        personalCrime =  Settings.option('personalOnly');
         main.subtitle('Number of crimes in last month: ' + crimeCount);
       }
   });
@@ -258,9 +262,11 @@ function drawNotifications()
     }
   if(e.itemIndex === 0)
   {
-    vibrateOff = Settings.option('vibrateOff', false);
+    Settings.option('vibrateOff', false);
+    vibrateOff =  Settings.option('vibrateOff');
   } else {
-    vibrateOff = Settings.option('vibrateOff', true);
+    Settings.option('vibrateOff', true);
+    vibrateOff = Settings.option('vibrateOff');
   }
   });
 }
