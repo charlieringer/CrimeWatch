@@ -112,8 +112,8 @@ main.on('click', 'down', function(e) {
         scrollable: true,
         title: 'Summary:',
         body: 'Possession of Weapon: ' + crimes.possessionOfWep +
-        '\nPersonal Theft: ' + crimes.theftPerson +
-        '\nViolent crime: ' + crimes.violentCrime 
+        ' Personal Theft: ' + crimes.theftPerson +
+        ' Violent crime: ' + crimes.violentCrime 
   });
   card.show();
       
