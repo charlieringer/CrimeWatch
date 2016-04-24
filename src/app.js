@@ -105,9 +105,10 @@ main.on('click', 'select', function(e) {
 });
 
 main.on('click', 'down', function(e) {
+  var card;
   if (personalCrime)
-    {
-      var card = new UI.Card({
+  {
+      card = new UI.Card({
         scrollable: true,
         title: 'Summary:',
         body: 'Possession of Weapon: ' + crimes.possessionOfWep +
@@ -116,26 +117,26 @@ main.on('click', 'down', function(e) {
   });
   card.show();
       
-    } else {
-      var card = new UI.Card({
-        scrollable: true,
-        title: 'Summary:',
-        body: 
-        'Anti Social: ' + crimes.antiSocial +
-        ' Bicycle Theft: ' + crimes.bicycleTheft +
-        ' Burglary: ' + crimes.burglary +
-        ' Criminal Damage: ' + crimes.crimDamageArson +
-        ' Drugs: ' + crimes.drugs +
-        ' Other Theft: ' + crimes.otherTheft +
-        ' Public Order: ' + crimes.publicOrder +
-        ' Robbery: ' + crimes.robbery +
-        ' Shoplifting: ' + crimes.shoplifting +
-        ' Vehicle Crime: ' + crimes.vehicleCrime +
-        ' Possession of Weapon: ' + crimes.possessionOfWep +
-        ' Personal Theft: ' + crimes.theftPerson +
-        ' Violent crime: ' + crimes.violentCrime +
-        ' Other crime: ' + crimes.otherCrime
-  });
+  } else {
+    card = new UI.Card({
+      scrollable: true,
+      title: 'Summary:',
+      body: 
+      'Anti Social: ' + crimes.antiSocial +
+      '\nBicycle Theft: ' + crimes.bicycleTheft +
+      '\nBurglary: ' + crimes.burglary +
+      '\nCriminal Damage: ' + crimes.crimDamageArson +
+      '\nDrugs: ' + crimes.drugs +
+      '\nOther Theft: ' + crimes.otherTheft +
+      '\nPublic Order: ' + crimes.publicOrder +
+      '\nRobbery: ' + crimes.robbery +
+      '\nShoplifting: ' + crimes.shoplifting +
+      '\nVehicle Crime: ' + crimes.vehicleCrime +
+      '\nPossession of Weapon: ' + crimes.possessionOfWep +
+      '\nPersonal Theft: ' + crimes.theftPerson +
+      '\nViolent crime: ' + crimes.violentCrime +
+      '\nOther crime: ' + crimes.otherCrime
+    });
       card.show();
     }
   console.log(crimes);
