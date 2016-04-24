@@ -60,7 +60,7 @@ if (Object.keys(options).length === 0) {
 var main = new UI.Card({
   title: 'Crime Watch',
   //icon: 'images/menu_icon.png',
-  body: 'Fetching data...',
+  subtitle: 'Fetching data...',
   subtitleColor: 'indigo', // Named colors
   bodyColor: '#9a0036' // Hex colors
 });
@@ -222,10 +222,10 @@ function drawCrimeToggle(){
     if(e.itemIndex === 0)
       {
         personalCrime = Settings.option('personalOnly', true);
-        main.body('Number of crimes in last month: ' + personalCrimeCount);
+        main.subtitle('Number of crimes in last month: ' + personalCrimeCount);
       } else {
         personalCrime = Settings.option('personalOnly', false);
-        main.body('Number of crimes in last month: ' + crimeCount);
+        main.subtitle('Number of crimes in last month: ' + crimeCount);
       }
   });
 }
@@ -353,9 +353,9 @@ function parseResponse(data) {
       //console.log(JSON.stringify(crimes));
   if(personalCrime)
     {
-      main.body('Number of crimes in last month: ' + personalCrimeCount);
+      main.subtitle('Number of crimes in last month: ' + personalCrimeCount);
     } else {
-      main.body('Number of crimes in last month: ' + crimeCount);
+      main.subtitle('Number of crimes in last month: ' + crimeCount);
     }
     }
 /**
@@ -363,7 +363,7 @@ function parseResponse(data) {
  */ 
 function success(pos) {
   console.log('Location changed!');
-  main.body('location found, getting data');
+  main.subtitle('location found, getting data');
   var lat = pos.coords.latitude;
   var long = pos.coords.longitude;
   console.log('lat= ' + lat + ' lon= ' + long);
