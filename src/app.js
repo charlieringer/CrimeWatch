@@ -379,7 +379,7 @@ function success(pos) {
     function(error) {
       // Failure!
       console.log('Failed fetching crime data: ' + error);
-      main.body('Failed to fetch crime data. Please check your connection.');
+      main.subtitle('Failed to fetch crime data. Please check your connection.');
     }
   );
 }
@@ -389,7 +389,7 @@ function success(pos) {
  */ 
 function error(err) {
   console.log('location error (' + err.code + '): ' + err.message);
-  main.body('Failed to fetch location data. Please check your connection.');
+  main.subtitle('Failed to fetch location data. Please check your connection.');
 }
 
 /**
