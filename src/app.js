@@ -69,8 +69,8 @@ var main = new UI.Card({
 main.show();
 
 main.on('click', 'up', function(e) {
-  var numberOfCrimes = -1;
-  var hotspot = "no value";
+  var numberOfCrimes = 0;
+  var hotspot = "None";
   var locationsToUse;
   for (var key in locations) {
     console.log(locations[key]);
