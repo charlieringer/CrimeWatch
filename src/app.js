@@ -38,6 +38,8 @@ var crimes = {
   violentCrime : 0,
 };
 
+var locations;
+
 var options = Settings.option();
 console.log("Current Save = " + JSON.stringify(options));
 
@@ -64,7 +66,24 @@ var main = new UI.Card({
 main.show();
 
 main.on('click', 'up', function(e) {
-  Vibe.vibrate('long');
+  var numberOfCrimes = -1;
+  var hotspot = "no value";
+  for (var key in locations) {
+    console.log("BOOYAH");
+    console.log(locations[key]);
+    if (locations[key] > numberOfCrimes)
+    {
+      console.log("BOOYAH2 Electric Boyahloo");
+      numberOfCrimes = locations.key;
+      hotspot = key;
+    }
+  }
+  var card;
+  card = new UI.Card({
+        title: 'Hotspot:',
+        body: 'The area with the largest number of crimes is: ' + hotspot
+  });
+  card.show();
 });
 
 main.on('click', 'select', function(e) {
@@ -283,8 +302,21 @@ function parseResponse(data) {
       // Success!
       console.log("Successfully fetched crime data!");
       resetCrimes();
+      locations = {};
       for (var i = 0; i < data.length; ++i) {
         var obj = data[i];
+        var location = obj.location.street.name;
+        locations[location] = (locations[location]|| 0) +1;
+//         if(locations.hasOwnProperty(location))
+//         {
+//           console.log("Found the value");
+//            locations.location++; 
+//         } else {
+//           locations.location = 1;
+//         }
+        
+        
+        
         if (obj.category === "anti-social-behaviour")
         {
           crimes.antiSocial++;
