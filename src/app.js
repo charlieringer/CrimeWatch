@@ -69,12 +69,10 @@ main.on('click', 'up', function(e) {
   var numberOfCrimes = -1;
   var hotspot = "no value";
   for (var key in locations) {
-    console.log("BOOYAH");
     console.log(locations[key]);
     if (locations[key] > numberOfCrimes)
     {
-      console.log("BOOYAH2 Electric Boyahloo");
-      numberOfCrimes = locations.key;
+      numberOfCrimes = locations[key];
       hotspot = key;
     }
   }
@@ -82,6 +80,7 @@ main.on('click', 'up', function(e) {
   card = new UI.Card({
         title: 'Hotspot:',
         body: 'The area with the largest number of crimes is: ' + hotspot
+        + '\nWith ' + numberOfCrimes + ' reports.'
   });
   card.show();
 });
@@ -305,18 +304,14 @@ function parseResponse(data) {
       locations = {};
       for (var i = 0; i < data.length; ++i) {
         var obj = data[i];
-        var location = obj.location.street.name;
-        locations[location] = (locations[location]|| 0) +1;
-//         if(locations.hasOwnProperty(location))
-//         {
-//           console.log("Found the value");
-//            locations.location++; 
-//         } else {
-//           locations.location = 1;
-//         }
-        
-        
-        
+        if(!personalCrime || ((obj.category === "possession-of-weapons") || 
+                            (obj.category === "theft-from-the-person") ||
+                             (obj.category === "violent-crime")) )
+          {
+                    var location = obj.location.street.name;
+                    locations[location] = (locations[location]|| 0) +1;
+          }
+
         if (obj.category === "anti-social-behaviour")
         {
           crimes.antiSocial++;
