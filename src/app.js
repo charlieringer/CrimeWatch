@@ -278,6 +278,7 @@ function drawNotifications()
 function resetCrimes()
     {
       crimeCount = 0;
+      personalCrimeCount = 0;
       for (var element in crimes) { 
         crimes[element] = 0;
     }
