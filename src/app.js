@@ -20,6 +20,7 @@ var timeSetting;
 
 //Crimes
 var crimeCount = 0;
+var personalCrimeCount = 0;
 
 var crimes = {
   antiSocial : 0,
@@ -39,6 +40,7 @@ var crimes = {
 };
 
 var locations;
+var personalLocations;
 
 var options = Settings.option();
 console.log("Current Save = " + JSON.stringify(options));
@@ -68,19 +70,26 @@ main.show();
 main.on('click', 'up', function(e) {
   var numberOfCrimes = -1;
   var hotspot = "no value";
+  var locationsToUse;
   for (var key in locations) {
     console.log(locations[key]);
-    if (locations[key] > numberOfCrimes)
+    if (personalCrime)
+      {
+        locationsToUse = personalLocations;
+      } else {
+        locationsToUse = locations;
+      }
+    if (locationsToUse[key] > numberOfCrimes)
     {
-      numberOfCrimes = locations[key];
+      numberOfCrimes = locationsToUse[key];
       hotspot = key;
     }
   }
   var card;
   card = new UI.Card({
         title: 'Hotspot:',
-        body: 'The area with the largest number of crimes is: ' + hotspot
-        + '\nWith ' + numberOfCrimes + ' reports.'
+        body: 'The area with the largest number of crimes is: ' + hotspot + 
+        '\nWith ' + numberOfCrimes + ' reports.'
   });
   card.show();
 });
@@ -219,8 +228,10 @@ function drawCrimeToggle(){
     if(e.itemIndex === 0)
       {
         personalCrime = Settings.option('personalOnly', true);
+        main.body('Number of crimes in last month: ' + personalCrimeCount);
       } else {
         personalCrime = Settings.option('personalOnly', false);
+        main.body('Number of crimes in last month: ' + crimeCount);
       }
   });
 }
@@ -301,111 +312,89 @@ function parseResponse(data) {
       // Success!
       console.log("Successfully fetched crime data!");
       resetCrimes();
+      personalLocations = {};
       locations = {};
       for (var i = 0; i < data.length; ++i) {
         var obj = data[i];
-        if(!personalCrime || ((obj.category === "possession-of-weapons") || 
+        
+        var location = obj.location.street.name;
+        if((obj.category === "possession-of-weapons") || 
                             (obj.category === "theft-from-the-person") ||
-                             (obj.category === "violent-crime")) )
-          {
-                    var location = obj.location.street.name;
-                    locations[location] = (locations[location]|| 0) +1;
+                             (obj.category === "violent-crime") )
+          { 
+                    personalLocations[location] = (personalLocations[location]|| 0) +1;
           }
+          locations[location] = (locations[location]|| 0) +1;
 
         if (obj.category === "anti-social-behaviour")
         {
           crimes.antiSocial++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "bicycle-theft")
         {
           crimes.bicycleTheft++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "burglary")
         {
           crimes.burglary++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "criminal-damage-arson")
         {
           crimes.crimDamageArson++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "drugs")
         {
          crimes.drugs++; 
-         if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "other-theft")
         {
           crimes.otherTheft++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "public-order")
         {
           crimes.publicOrder++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "robbery")
         {
           crimes.robbery++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "shoplifting")
         {
           crimes.shoplifting++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "vehicle-crime")
         {
           crimes.vehicleCrime++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "other-crime")
         {
           crimes.otherCrime++;
-          if(!personalCrime)
-          {
             crimeCount++;
-          }
         } else if (obj.category === "possession-of-weapons")
         {
           crimes.possessionOfWep++;
           crimeCount++;
+          personalCrimeCount++;
         } else if (obj.category === "theft-from-the-person")
         {
           crimes.theftPerson++;
           crimeCount++;
+          personalCrimeCount++;
         } else if (obj.category === "violent-crime")
         {
           crimes.violentCrime++;
           crimeCount++;
+          personalCrimeCount++;
         }         
       }
       console.log('Crimes:');
       //console.log(JSON.stringify(crimes));
+  if(personalCrime)
+    {
+      main.body('Number of crimes in last month: ' + personalCrimeCount);
+    } else {
       main.body('Number of crimes in last month: ' + crimeCount);
+    }
     }
 /**
  * Callback for when navigator.geolocation successfully retrieves location data
