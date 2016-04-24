@@ -68,6 +68,10 @@ main.on('click', 'up', function(e) {
 });
 
 main.on('click', 'select', function(e) {
+        if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
   var menu = new UI.Menu({
     sections: [{
       items: [{
@@ -87,6 +91,10 @@ main.on('click', 'select', function(e) {
   });
   menu.show();
   menu.on('select', function(e) {
+      if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
     if(e.itemIndex === 0)
       {
         drawUpdateFreq();
@@ -112,8 +120,8 @@ main.on('click', 'down', function(e) {
         scrollable: true,
         title: 'Summary:',
         body: 'Possession of Weapon: ' + crimes.possessionOfWep +
-        ' Personal Theft: ' + crimes.theftPerson +
-        ' Violent crime: ' + crimes.violentCrime 
+        '\nPersonal Theft: ' + crimes.theftPerson +
+        '\nViolent crime: ' + crimes.violentCrime 
   });
   card.show();
       
@@ -158,6 +166,10 @@ function drawUpdateFreq(){
   });
   menu.show();
   menu.on('select', function(e) {
+    if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
     if(e.itemIndex === 0)
       {
         refresh = Settings.option('refresh', true);
@@ -182,6 +194,10 @@ function drawCrimeToggle(){
   });
   menu.show();
   menu.on('select', function(e) {
+    if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
     if(e.itemIndex === 0)
       {
         personalCrime = Settings.option('personalOnly', true);
@@ -207,6 +223,10 @@ function drawNotifications()
   });
   menu.show();
   menu.on('select', function(e) {
+    if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
   if(e.itemIndex === 0)
   {
     vibrateOff = Settings.option('vibrateOff', false);
@@ -236,6 +256,10 @@ function drawTime()
   });
   menu.show();
   menu.on('select', function(e) {
+    if (!vibrateOff)
+    {
+      Vibe.vibrate('short');
+    }
   if(e.itemIndex === 0)
   {
     timeSetting = Settings.option('time', 1);
@@ -500,9 +524,17 @@ Wakeup.launch(function(e) {
         maximumAge: 0,
         timeout: 5000 
   });
+  if (!vibrateOff)
+    {
+      Vibe.vibrate('long');
+    }
   
   // set the the app to wakeup
-  scheduleWakeup();
+  if(refresh)
+    {
+      scheduleWakeup();
+    }
+  
 });
 
 /**
