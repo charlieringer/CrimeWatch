@@ -1,7 +1,7 @@
 /**
- * Welcome to Pebble.js!
+ * CrimeWatch
  *
- * This is where you write your app.
+ * Authors: Amrish Parmar & Charlie Ringer
  */
 
 var UI = require('ui');
@@ -19,7 +19,7 @@ var timeSetting;
 var options = Settings.option();
 console.log("Current Save = " + JSON.stringify(options));
 
-if (Object.keys(options).length === 0){
+if (Object.keys(options).length === 0) {
     refresh = Settings.option('refresh', false);
     violentOnly = Settings.option('violentOnly', true);
     vibrateOff = Settings.option('vibrateOff', false);
@@ -30,8 +30,6 @@ if (Object.keys(options).length === 0){
   vibrateOff = Settings.option('vibrateOff');
   timeSetting = Settings.option('time');
 }
-
-var watchId;
 
 var main = new UI.Card({
   title: 'Crime Watch',
@@ -87,6 +85,9 @@ main.on('click', 'select', function(e) {
 main.on('click', 'down', function(e) {
 });
 
+/**
+ * Draw menu item setting for how often to wake the app from sleep
+ */ 
 function drawUpdateFreq(){
   var menu = new UI.Menu({
     sections: [{
@@ -108,6 +109,9 @@ function drawUpdateFreq(){
   });
 }
 
+/**
+ * Draw menu item for setting on whether to show only violent crime
+ */ 
 function drawCrimeToggle(){
   var menu = new UI.Menu({
     sections: [{
@@ -129,6 +133,9 @@ function drawCrimeToggle(){
   });
 }
 
+/**
+ * Draw menu item for setting on whether to have vibes on or off
+ */ 
 function drawNotifications()
 {
   var menu = new UI.Menu({
@@ -151,6 +158,9 @@ function drawNotifications()
   });
 }
 
+/**
+ * Draw menu item for setting time period to retrieve data
+ */ 
 function drawTime()
 {
   var menu = new UI.Menu({
@@ -181,6 +191,9 @@ function drawTime()
   });
 }
 
+/**
+ * Callback for when navigator.geolocation successfully retrieves location data
+ */ 
 function success(pos) {
   console.log('Location changed!');
   main.body('location found, getting data');
@@ -215,27 +228,35 @@ function success(pos) {
   );
 }
 
+/**
+ * Callback for if navigator.geolocation fails to retrieve location data
+ */ 
 function error(err) {
   console.log('location error (' + err.code + '): ' + err.message);
   main.body('Failed to fetch location data. Please check your connection.');
 }
 
-var options = {
-  enableHighAccuracy: true,
-  maximumAge: 0,
-  timeout: 5000
-};
-
-// Single wakeup event handler example:
+/**
+ * Wakeup event called when the app is launched or woken up
+ */ 
 Wakeup.launch(function(e) {
   console.log('Wakeup event! ' + JSON.stringify(e));
-  main.body("just woke up");
-  // Get location updates
-  watchId = navigator.geolocation.getCurrentPosition(success, error, options);
   
+  // Get location updates
+  watchId = navigator.geolocation.getCurrentPosition(success, error, {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 5000
+    };
+  );
+  
+  // set the the app to wakeup
   scheduleWakeup();
 });
 
+/**
+ * Schedules the app to wakeup after a given time
+ */ 
 function scheduleWakeup() {
   Wakeup.schedule(
     {
