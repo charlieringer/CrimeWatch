@@ -1,6 +1,6 @@
 # CrimeWatch
 
-A Pebble watch application for displaying local crime statistics. 
+A Pebble watch application for displaying local crime statistics. Created for HackSussex 2016. 
 
 By default, it shows everything within a 1-mile radius.
 It also features a setting that allows views for all crime or just violent crime and has basic support for notifications.
